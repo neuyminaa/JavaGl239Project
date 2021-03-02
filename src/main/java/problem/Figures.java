@@ -2,6 +2,7 @@ package problem;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
+import javax.media.opengl.GL2GL3;
 
 public class Figures {
     public static void renderPoint (GL2 gl, double x, double y, float size) {
@@ -37,7 +38,7 @@ public class Figures {
     }
     public static void renderQuad (GL2 gl, double xa, double ya,double xb, double yb,double xc, double yc,double xd, double yd, boolean filed ) {
         if (filed) {
-            gl.glBegin(GL.GL_QUAD);
+            gl.glBegin(GL2GL3.GL_QUADS);
             gl.glVertex2d(xa, ya);
             gl.glVertex2d(xb, yb);
             gl.glVertex2d(xc, yc);
@@ -49,6 +50,7 @@ public class Figures {
             gl.glVertex2d(xa, ya);
             gl.glVertex2d(xb, yb);
             gl.glVertex2d(xc, yc);
+            gl.glVertex2d(xd, yd);
             gl.glVertex2d(xa, ya);
             gl.glEnd();
         }
