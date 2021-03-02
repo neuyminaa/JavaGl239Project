@@ -134,10 +134,14 @@ public class Problem {
 //        for (Point point : points) {
 //            point.render(gl);
 //        }
-        Figures.renderPoint(gl,0.5,0.5,3);
-        Figures.renderPoint(gl,-0.5,-0.5,5);
-        Figures.renderPoint(gl,-0.5,0.5,2);
-        Figures.renderPoint(gl,0.5,-0.5,1);
+        // Figures.renderPoint(gl,0.5,0.5,3);
+//        Figures.renderPoint(gl,-0.5,-0.5,5);
+//        Figures.renderPoint(gl,-0.5,0.5,2);
+//        Figures.renderPoint(gl,0.5,-0.5,1);
 
+       // Line(gl, 0, 0, 0.5, 0.5, 3);
+       // Figures.renderTriangle(gl, -2, 0, 0, 0.5, 0.5 , 0.4, false);
+        Figures.renderQuad ( )
     }
+
 }
