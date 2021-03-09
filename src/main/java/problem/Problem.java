@@ -141,8 +141,10 @@ public class Problem {
 
        // Line(gl, 0, 0, 0.5, 0.5, 3);
        // Figures.renderTriangle(gl, -2, 0, 0, 0.5, 0.5 , 0.4, false);
-        Figures.renderQuad ( gl, 0,0,0, 0.2,0.2,0.2,0.3,0.4, false);
-        Figures.renderCircle (gl, 0.1,0.2,0.1, true);
+      //Figures.renderQuad ( gl, 0,0,0, 0.4,0.4,0.2,0.3,0.4, false);
+        Rectangle rectangle = new Rectangle(0.1,0.1,0.2,0.3,-0.1,0.3);
+        rectangle.render(gl);
+       // Figures.renderCircle (gl, 0.1,0.2,0.1, true);
     }
 
 }
