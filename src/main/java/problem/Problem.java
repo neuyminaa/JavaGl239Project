@@ -30,12 +30,14 @@ public class Problem {
      * список точек
      */
     private ArrayList<Point> points;
+    private ArrayList<Rectangle> rectangles;
 
     /**
      * Конструктор класса задачи
      */
     public Problem() {
         points = new ArrayList<>();
+        rectangles = new ArrayList<>();
     }
 
     /**
@@ -113,8 +115,8 @@ public class Problem {
      */
     public void addRandomPoints(int n) {
         for (int i = 0; i < n; i++) {
-            Point p = Point.getRandomPoint();
-            points.add(p);
+            Rectangle r = Rectangle.getRandomRectangle();
+            rectangles.add(r);
         }
     }
 
@@ -123,6 +125,7 @@ public class Problem {
      */
     public void clear() {
         points.clear();
+        rectangles.clear();
     }
 
     /**
@@ -131,9 +134,9 @@ public class Problem {
      * @param gl переменная OpenGL для рисования
      */
     public void render(GL2 gl) {
-//        for (Point point : points) {
-//            point.render(gl);
-//        }
+        for (Rectangle rectangle : rectangles) {
+            rectangle.render(gl);
+        }
         // Figures.renderPoint(gl,0.5,0.5,3);
 //        Figures.renderPoint(gl,-0.5,-0.5,5);
 //        Figures.renderPoint(gl,-0.5,0.5,2);
@@ -142,9 +145,9 @@ public class Problem {
        // Line(gl, 0, 0, 0.5, 0.5, 3);
        // Figures.renderTriangle(gl, -2, 0, 0, 0.5, 0.5 , 0.4, false);
       //Figures.renderQuad ( gl, 0,0,0, 0.4,0.4,0.2,0.3,0.4, false);
-        Rectangle rectangle = new Rectangle(0.1,0.1,0.2,0.3,-0.1,0.3);
-        rectangle.render(gl);
-       // Figures.renderCircle (gl, 0.1,0.2,0.1, true);
+//        Rectangle rectangle = new Rectangle(0.1,0.1,0.2,0.3,-0.1,0.3);
+//        rectangle.render(gl);
+       // Figures.renderCircle (gl, 0.1,0.2,0.1, false);
     }
 
 }
