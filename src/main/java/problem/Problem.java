@@ -32,6 +32,11 @@ public class Problem {
     private ArrayList<Point> points;
     private ArrayList<Rectangle> rectangles;
 
+    Rectangle rectA;
+    Rectangle rectB;
+
+    Line line;
+
     /**
      * Конструктор класса задачи
      */
@@ -43,13 +48,12 @@ public class Problem {
     /**
      * Добавить точку
      *
-     * @param x      координата X точки
-     * @param y      координата Y точки
-     * @param setVal номер множества
+     * @param x координата X точки
+     * @param y координата Y точки
      */
-    public void addPoint(double x, double y, int setVal) {
-        Point point = new Point(x, y, setVal);
-        points.add(point);
+    public void addPoint(double x, double y, double x2, double y2, double x3, double y3) {
+        Rectangle point = new Rectangle(x, y, x2, y2, x3, y3);
+        rectangles.add(point);
     }
 
     /**
@@ -57,18 +61,16 @@ public class Problem {
      */
     public void solve() {
         // перебираем пары точек
-        for (Point p : points) {
-            for (Point p2 : points) {
-                // если точки являются разными
-                if (p != p2) {
-                    // если координаты у них совпадают
-                    if (Math.abs(p.x - p2.x) < 0.0001 && Math.abs(p.y - p2.y) < 0.0001) {
-                        p.isSolution = true;
-                        p2.isSolution = true;
-                    }
-                }
+        double maxlength =0;
+        Line maxlengthline = null;
+        for (int i=0, i<n, i++ ){
+            Point p1 = points.get(i);
+            for( int J=i+1, j<n, j++ ){
+                Point p2 = point.get(j);
             }
         }
+        // rectB =
+        // line =
     }
 
     /**
@@ -83,10 +85,13 @@ public class Problem {
             while (sc.hasNextLine()) {
                 double x = sc.nextDouble();
                 double y = sc.nextDouble();
-                int setVal = sc.nextInt();
+                double x2 = sc.nextDouble();
+                double y2 = sc.nextDouble();
+                double x3 = sc.nextDouble();
+                double y3 = sc.nextDouble();
                 sc.nextLine();
-                Point point = new Point(x, y, setVal);
-                points.add(point);
+                Rectangle point = new Rectangle(x, y, x2, y2, x3, y3);
+                rectangles.add(point);
             }
         } catch (Exception ex) {
             System.out.println("Ошибка чтения из файла: " + ex);
@@ -99,8 +104,8 @@ public class Problem {
     public void saveToFile() {
         try {
             PrintWriter out = new PrintWriter(new FileWriter(FILE_NAME));
-            for (Point point : points) {
-                out.printf("%.2f %.2f %d\n", point.x, point.y, point.setNumber);
+            for (Rectangle rectangle : rectangles) {
+                out.printf("%.2f %.2f %.2f %.2f %.2f %.2f\n", rectangle.xA, rectangle.yA, rectangle.xB, rectangle.yB, rectangle.xT, rectangle.yT);
             }
             out.close();
         } catch (IOException ex) {
@@ -126,6 +131,9 @@ public class Problem {
     public void clear() {
         points.clear();
         rectangles.clear();
+        rectA = null;
+        rectB = null;
+        line = null;
     }
 
     /**
@@ -137,17 +145,23 @@ public class Problem {
         for (Rectangle rectangle : rectangles) {
             rectangle.render(gl);
         }
+
+        if (rectA != null) {
+            rectA.render(gl);
+            rectB.render(gl);
+            line.render(gl);
+        }
         // Figures.renderPoint(gl,0.5,0.5,3);
 //        Figures.renderPoint(gl,-0.5,-0.5,5);
 //        Figures.renderPoint(gl,-0.5,0.5,2);
 //        Figures.renderPoint(gl,0.5,-0.5,1);
 
-       // Line(gl, 0, 0, 0.5, 0.5, 3);
-       // Figures.renderTriangle(gl, -2, 0, 0, 0.5, 0.5 , 0.4, false);
-      //Figures.renderQuad ( gl, 0,0,0, 0.4,0.4,0.2,0.3,0.4, false);
+        // Line(gl, 0, 0, 0.5, 0.5, 3);
+        // Figures.renderTriangle(gl, -2, 0, 0, 0.5, 0.5 , 0.4, false);
+        //Figures.renderQuad ( gl, 0,0,0, 0.4,0.4,0.2,0.3,0.4, false);
 //        Rectangle rectangle = new Rectangle(0.1,0.1,0.2,0.3,-0.1,0.3);
 //        rectangle.render(gl);
-       // Figures.renderCircle (gl, 0.1,0.2,0.1, false);
+        // Figures.renderCircle (gl, 0.1,0.2,0.1, false);
     }
 
 }

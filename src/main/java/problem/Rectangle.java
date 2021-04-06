@@ -16,6 +16,9 @@ public class Rectangle {
     double xD;
     double yD;
 
+    double xT;
+    double yT;
+
     // L.x = x3
     // L.y = y3
     // P.x - ?
@@ -30,6 +33,8 @@ public class Rectangle {
 
         xB = x2;
         yB = y2;
+        xT = x3;
+        yT = y3;
         double t = ((x2 - x1) * x3 + (y2 - y1) * y3 - (x2 - x1) * x1 - (y2 - y1) * y1) / (x2 - x1) * (x2 - x1) * (y2 - y1) * (y2 - y1);
 
         double xP = (x2 - x1) * t + x1;
@@ -59,5 +64,10 @@ public class Rectangle {
                 r.nextDouble() * 2 - 1
         );
     }
+
+//   public Line Linecrossing() {
+//        re
+//
+//   }
 
 }
