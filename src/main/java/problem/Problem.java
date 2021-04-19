@@ -3,165 +3,151 @@ package problem;
 import javax.media.opengl.GL2;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.Random;
 
-/**
- * Класс задачи
- */
 public class Problem {
-    /**
-     * текст задачи
-     */
-    public static final String PROBLEM_TEXT = "ПОСТАНОВКА ЗАДАЧИ:\n" +
-            "Заданы два множества точек в пространстве.\n" +
-            "Требуется построить пересечения и разность этих множеств";
 
-    /**
-     * заголовок окна
-     */
-    public static final String PROBLEM_CAPTION = "Итоговый проект ученика 10-7 Иванова Ивана";
+    public static final String PROBLEM_TEXT = "Постановка задачи:\n" +
+            "На плоскости задано множество прямоугольников. \n" +
+            "Найти такую пару пересекающихся прямоугольников, что длина отрезка, \n" +
+            "проведенного от одной точки пересечения этих двух прямоугольников до другой, максимальна. \n" +
+            "Если прямоугольники имеют более двух точек пересечения, \n" +
+            "выбирать среди них такую пару, расстояние между которыми максимально. \n" +
+            "В качестве ответа:\n" +
+            "выделить эту пару прямоугольников,\n" +
+            "нарисовать отрезок между найденными точками пересечения. \n";
 
-    /**
-     * путь к файлу
-     */
-    private static final String FILE_NAME = "points.txt";
 
-    /**
-     * список точек
-     */
-    private ArrayList<Point> points;
-    private ArrayList<Rectangle> rectangles;
+    public static final String PROBLEM_CAPTION = "Итоговый проект ученицы 10-7 класса Неуйминой Антонины";
 
-    Rectangle rectA;
-    Rectangle rectB;
+    public ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
+    public ArrayList<Rectangle> TrueRectangles = new ArrayList<Rectangle>();
+    //хранит те самые два прямоугольника
 
-    Line line;
+    public ArrayList<Point> TruePoint = new ArrayList<Point>();
+    // хранит те самые две точки
 
-    /**
-     * Конструктор класса задачи
-     */
-    public Problem() {
-        points = new ArrayList<>();
-        rectangles = new ArrayList<>();
-    }
-
-    /**
-     * Добавить точку
-     *
-     * @param x координата X точки
-     * @param y координата Y точки
-     */
-    public void addPoint(double x, double y, double x2, double y2, double x3, double y3) {
-        Rectangle point = new Rectangle(x, y, x2, y2, x3, y3);
-        rectangles.add(point);
-    }
-
-    /**
-     * Решить задачу
-     */
     public void solve() {
-        // перебираем пары точек
-        double maxlength =0;
-        Line maxlengthline = null;
-        for (int i=0, i<n, i++ ){
-            Point p1 = points.get(i);
-            for( int J=i+1, j<n, j++ ){
-                Point p2 = point.get(j);
+        TrueRectangles.clear();
+        TruePoint.clear();
+        //очистить ответ
+
+        double mx = 0;
+        //максимальное значение длины
+
+        for (int i = 0; i < rectangles.size(); i++) {
+            for (int j = i + 1; j < rectangles.size(); j++) {
+                //циклы по всем парам прямоугольников
+
+                ArrayList<Point> t = rectangles.get(i).intersection(rectangles.get(j));
+                //получаем пересечение прямоугольников, размер массива всегда или 0(если нет пересечений) или 2
+
+                if (t.size() > 0) {
+                    //если есть пересечение
+
+                    double tdist = t.get(0).distanceTo(t.get(1));
+                    //считаем новую длину
+
+                    if (tdist > mx) {
+                        TrueRectangles.clear();
+                        TruePoint.clear();
+                        //если она больше, то обновляем максимум и ответ
+
+                        mx = tdist;
+                        TruePoint.add(t.get(0));
+                        TruePoint.add(t.get(1));
+                        TrueRectangles.add(rectangles.get(i));
+                        TrueRectangles.add(rectangles.get(j));
+                    }
+                }
             }
         }
-        // rectB =
-        // line =
     }
 
-    /**
-     * Загрузить задачу из файла
-     */
-    public void loadFromFile() {
-        points.clear();
+    //добавить прямоугольник
+    public void addRectangle(Point p1, Point p2, Point pP) {
+        Rectangle newestRectangle = new Rectangle(p1, p2, pP);
+        rectangles.add(newestRectangle);
+    }
+
+    Random random = new Random();
+
+    //получить случайный прямоугольник
+    public void getRandomRectangle(int cntQ) {
+        for (int i = 0; i < cntQ; i++) {
+            Point
+                    point1 = new Point(random.nextDouble() * 2 - 1, random.nextDouble() * 2 - 1),
+                    point2 = new Point(random.nextDouble() * 2 - 1, random.nextDouble() * 2 - 1),
+                    pointP = new Point(random.nextDouble() * 2 - 1, random.nextDouble() * 2 - 1);
+            addRectangle(point1, point2, pointP);
+        }
+    }
+
+    //Загрузить задачу из файла
+    public void loadFromFile(File file) {
         try {
-            File file = new File(FILE_NAME);
-            Scanner sc = new Scanner(file);
-            // пока в файле есть непрочитанные строки
-            while (sc.hasNextLine()) {
-                double x = sc.nextDouble();
-                double y = sc.nextDouble();
-                double x2 = sc.nextDouble();
-                double y2 = sc.nextDouble();
-                double x3 = sc.nextDouble();
-                double y3 = sc.nextDouble();
-                sc.nextLine();
-                Rectangle point = new Rectangle(x, y, x2, y2, x3, y3);
-                rectangles.add(point);
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                String[] s = line.split(", ");
+                Point[] pQ = new Point[3];
+                for (int i = 0; i < 3; i++) {
+                    String pS = s[i].replace("(", "");
+                    pS = pS.replace(")", "");
+                    pS = pS.replace(",", ".");
+                    String[] xyS = pS.split(";");
+                    pQ[i] = new Point(Double.parseDouble(xyS[0]), Double.parseDouble(xyS[1]));
+                }
+                rectangles.add(new Rectangle(pQ[0], pQ[1], pQ[2]));
             }
+            reader.close();
         } catch (Exception ex) {
-            System.out.println("Ошибка чтения из файла: " + ex);
+            System.out.println("couldn't read the file");
+            ex.printStackTrace();
         }
     }
 
-    /**
-     * Сохранить задачу в файл
-     */
-    public void saveToFile() {
+    //Сохранить задачу в файл
+    public void saveToFile(File file) {
         try {
-            PrintWriter out = new PrintWriter(new FileWriter(FILE_NAME));
-            for (Rectangle rectangle : rectangles) {
-                out.printf("%.2f %.2f %.2f %.2f %.2f %.2f\n", rectangle.xA, rectangle.yA, rectangle.xB, rectangle.yB, rectangle.xT, rectangle.yT);
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            String s = "";
+            for (Rectangle r : rectangles) {
+                s += (r + "\n");
             }
-            out.close();
+
+            writer.write(s);
+            writer.close();
+
         } catch (IOException ex) {
-            System.out.println("Ошибка записи в файл: " + ex);
+            ex.printStackTrace();
         }
     }
 
-    /**
-     * Добавить заданное число случайных точек
-     *
-     * @param n кол-во точек
-     */
-    public void addRandomPoints(int n) {
-        for (int i = 0; i < n; i++) {
-            Rectangle r = Rectangle.getRandomRectangle();
-            rectangles.add(r);
-        }
-    }
-
-    /**
-     * Очистить задачу
-     */
+    //Очистить задачу
     public void clear() {
-        points.clear();
         rectangles.clear();
-        rectA = null;
-        rectB = null;
-        line = null;
+        TruePoint.clear();
+        TrueRectangles.clear();
     }
 
-    /**
-     * Нарисовать задачу
-     *
-     * @param gl переменная OpenGL для рисования
-     */
     public void render(GL2 gl) {
-        for (Rectangle rectangle : rectangles) {
-            rectangle.render(gl);
+        if(rectangles!=null)
+        for (Rectangle r : rectangles) {
+            r.render(gl);
         }
 
-        if (rectA != null) {
-            rectA.render(gl);
-            rectB.render(gl);
-            line.render(gl);
+        if(TrueRectangles!=null)
+        for (Rectangle r : TrueRectangles) {
+            r.renderResult(gl);
         }
-        // Figures.renderPoint(gl,0.5,0.5,3);
-//        Figures.renderPoint(gl,-0.5,-0.5,5);
-//        Figures.renderPoint(gl,-0.5,0.5,2);
-//        Figures.renderPoint(gl,0.5,-0.5,1);
 
-        // Line(gl, 0, 0, 0.5, 0.5, 3);
-        // Figures.renderTriangle(gl, -2, 0, 0, 0.5, 0.5 , 0.4, false);
-        //Figures.renderQuad ( gl, 0,0,0, 0.4,0.4,0.2,0.3,0.4, false);
-//        Rectangle rectangle = new Rectangle(0.1,0.1,0.2,0.3,-0.1,0.3);
-//        rectangle.render(gl);
-        // Figures.renderCircle (gl, 0.1,0.2,0.1, false);
+        if (TruePoint.size()==2) {
+            for (Point p : TruePoint) {
+                p.render(gl, 5);
+            }
+            Line resultLine = new Line(TruePoint.get(0), TruePoint.get(1));
+            resultLine.render(gl);
+        }
     }
-
 }
